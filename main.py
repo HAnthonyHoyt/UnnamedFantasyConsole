@@ -1,20 +1,30 @@
-import pyxel
-import os
+import argparse
+
+from src.memory import Memory
+from src.cpu import CPU
 
 
-class Main:
-    def __init__(self):
-        pyxel.init(160, 160, caption="Unnamed Fantasy Portable Console")
-        pyxel.run(self.update, self.draw)
+def main():
+    parser = argparse.ArgumentParser(description='Unnamed Fantasy Console')
+    parser.add_argument('--rom', type=str, help='The rom you wish to load')
 
-    def update(self):
-        if pyxel.btnp(pyxel.KEY_Q):
-            pyxel.quit()
+    args = parser.parse_args()
+    print("Loading rom '{}'".format(args.rom))
 
-    def draw(self):
-        pyxel.cls(0)
-        pyxel.text(10, 10, "This is the beginning", 7)
+    memory = Memory()
+    with open(args.rom, mode="rb") as rom_file:
+        memory.load(rom_file.read(), 10)
+
+    memory.mem_print(0, 20)
+
+    cpu = CPU()
+
+    cpu.a = 8
+    cpu.b = 257
+    cpu.cd = 0xf66f
+
+    cpu.dump()
 
 
 if __name__ == '__main__':
-    Main()
+    main()
