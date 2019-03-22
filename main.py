@@ -1,7 +1,7 @@
 import argparse
 
-from src.memory import Memory
 from src.cpu import CPU
+from src.memory import Memory
 
 
 def main():
@@ -19,9 +19,23 @@ def main():
 
     cpu = CPU()
 
-    cpu.a = 8
-    cpu.b = 257
-    cpu.cd = 0xf66f
+    cpu.a = 32
+    cpu.b = 32 * 2 + 1
+    cpu.c = 32 * 3 + 1
+    cpu.d = 32 * 4 + 1
+    cpu.e = 32 * 5 + 1
+    cpu.f = 32 * 6 + 1
+    cpu.g = 32 * 7 + 1
+    cpu.h = 32 * 8 + 1
+
+    cpu.dump()
+
+    cpu.ab = 32 * 9
+    cpu.cd = 32 * 10
+    cpu.ef = 32 * 11
+    cpu.gh = 32 * 12
+    cpu.pc = 32 * 13
+    cpu.st = 32 * 14
 
     cpu.dump()
 
