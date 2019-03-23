@@ -1,4 +1,9 @@
 # The input board, which will handle the button presses
 
+
 class Input:
-    pass
+    def __init__(self):
+        pass
+
+    def clock(self, ticks: int):
+        pass

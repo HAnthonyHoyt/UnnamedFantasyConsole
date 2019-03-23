@@ -14,3 +14,6 @@ class Graphics:
     def draw(self):
         pyxel.cls(0)
         pyxel.text(10, 10, "This is the beginning", 7)
+
+    def clock(self, ticks: int):
+        pass

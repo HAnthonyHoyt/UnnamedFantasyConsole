@@ -1,5 +1,7 @@
 import hexdump
 
+from .logger import logger
+
 
 def hex2int(hex_value: str) -> int:
     return int(hex_value, 16)
@@ -15,7 +17,9 @@ class Memory:
         self.memory[offset:offset+len(data)] = data
     
     def mem_print(self, offset, length):
-        hexdump.hexdump(self.memory[offset:offset+length])
+        logger.debug("Mem Dump from {} for {} bytes".format(offset, length))
+        hex_gen = hexdump.hexdump(self.memory[offset:offset + length], result='generator')
+        [logger.debug(x) for x in hex_gen]
 
 
 memory = Memory()

@@ -1,5 +1,6 @@
 # The core CPU, which will run the game
 
+from .logger import logger
 from .memory import memory
 
 
@@ -23,12 +24,15 @@ class CPU:
     class FLAGS:
         ZERO = 0x01
         CARRY = 0x02
+        OVERFLOW = 0x04
 
     def __init__(self):
+        # The lower registers
         self._a = 0
         self._b = 0
         self._c = 0
         self._d = 0
+        # The upper registers
         self._e = 0
         self._f = 0
         self._g = 0
@@ -146,39 +150,39 @@ class CPU:
         self._h = _get_8(value)
 
     @property
-    def ab(self):
-        return _create_16(self._a, self._b)
+    def ae(self):
+        return _create_16(self._a, self._e)
 
-    @ab.setter
-    def ab(self, value):
+    @ae.setter
+    def ae(self, value):
         self._a = _get_top_8(value)
-        self._b = _get_8(value)
+        self._e = _get_8(value)
 
     @property
-    def cd(self):
-        return _create_16(self._c, self._d)
+    def bf(self):
+        return _create_16(self._b, self._f)
 
-    @cd.setter
-    def cd(self, value):
-        self._c = _get_top_8(value)
-        self._d = _get_8(value)
-
-    @property
-    def ef(self):
-        return _create_16(self._e, self._f)
-
-    @ef.setter
-    def ef(self, value):
-        self._e = _get_top_8(value)
+    @bf.setter
+    def bf(self, value):
+        self._b = _get_top_8(value)
         self._f = _get_8(value)
 
     @property
-    def gh(self):
+    def cg(self):
+        return _create_16(self._c, self._g)
+
+    @cg.setter
+    def cg(self, value):
+        self._c = _get_top_8(value)
+        self._g = _get_8(value)
+
+    @property
+    def dh(self):
         return _create_16(self._g, self._h)
 
-    @gh.setter
-    def gh(self, value):
-        self._g = _get_top_8(value)
+    @dh.setter
+    def dh(self, value):
+        self._d = _get_top_8(value)
         self._h = _get_8(value)
 
     @property
@@ -202,8 +206,8 @@ class CPU:
         self._st = _get_16(value)
 
     def dump(self):
-        print("A  B  C  D  E  F  G  H  FL   PC   ST")
-        print("{:02X} {:02X} {:02X} {:02X} {:02X} {:02X} {:02X} {:02X} {:04X} {:04X} {:04X}".format(
+        logger.info("A  B  C  D  E  F  G  H  FL   PC   ST")
+        logger.info("{:02X} {:02X} {:02X} {:02X} {:02X} {:02X} {:02X} {:02X} {:04X} {:04X} {:04X}".format(
             self.a, self.b, self._c, self._d, self._e, self._f, self._g, self._h, self._fl, self._pc, self._st))
 
     def clock(self, ticks: int):
